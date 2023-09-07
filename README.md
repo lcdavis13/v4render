@@ -1,21 +1,15 @@
-# Next.js 13 Full Course 2023 | Build and Deploy a Full Stack App Using the Official React Framework
-![AI Prompt Sharing](https://i.ibb.co/9pQNZZy/Thumbnail-27.png)
+<h1 align="center">Software Vulnerability Visualizer & Tracker</h1>
+<h3 align="center">Unveiling Vulnerabilities, Safeguarding Software!</h3>
+<h1 align="center">:warning:</h1>
 
-## Introduction
-Next.js recently became the official React framework as outlined in React docs. In this course, you'll learn the most important Next.js concepts and how they fit into the React ecosystem. Finally, you'll put your skills to the test by building a modern full-stack Next 13 application.
- 
-In this video, you'll learn:
-- Next.js 13 App Folder Structure
-- Next.js 13 Client Components vs Server Components
-- Next.js 13 File-based Routing (including dynamic and nested routes)
-- Next.js 13 page, layout, loading, and error Special Files
-- Next.js 13 Serverless Route Handlers (Next API, Full Stack Apps)
-- Next.js 13 Metadata and Search Engine Optimization (SEO)
-- Three ways to fetch data in Next.js:
-   - Server Side Rendering (SSR),
-   - Static Site Generation (SSG)
-   - Incremental Static Generation (ISR)
+### TECH STACK
+<p align="center">
+<img src="https://github.com/devicons/devicon/blob/master/icons/javascript/javascript-original.svg" title="Javascript" alt="Javascript" width="52" height="52"/>
+<img src="https://github.com/devicons/devicon/blob/master/icons/tailwindcss/tailwindcss-plain.svg" title="Tailwind" alt="Tailwind" width="52" height="52"/>
+<img src="https://github.com/devicons/devicon/blob/master/icons/nextjs/nextjs-line.svg" title="NextJS" alt="NextJS" width="52" height="52"/>
+<img src="https://github.com/devicons/devicon/blob/master/icons/mongodb/mongodb-original-wordmark.svg" title="Mongodb" alt="Mongodb" width="52" height="52"/>
+</p>
 
-## Want to land your dream programming job in 3 - 6 months?
-⭐ JSM Masterclass Experience - https://jsmastery.pro/masterclass
-Become a Software Engineer. Guaranteed.
+
+### Background:
+Our project is a software vulnerability visualizer and tracker designed to transform the way users interact with the National Vulnerability Database (NVD) website. With this tool, users can explore vulnerabilities from the NVD website in an insightful and user-friendly manner, gaining valuable insights into potential security risks. Additionally, our platform empowers users to curate their own personalized list of vulnerabilities, allowing them to stay informed and take proactive measures to address potential threats. This project represents a significant step forward in enhancing cybersecurity awareness and preparedness, ultimately contributing to a safer digital environment.

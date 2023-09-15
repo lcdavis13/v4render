@@ -3,16 +3,15 @@ import { Schema, model, models } from 'mongoose';
 const GoalScorerSchema = new Schema({
   date: {
     type: String,
-    ref: 'User',
     required: [true, 'Date is required.'],
   },
   home_team: {
     type: String,
-    required: [true, 'Home Team is required.'],
+    required: [true, 'Home team is required.'],
   },
   away_team: {
     type: String,
-    required: [true, 'Away Team is required.'],
+    required: [true, 'Away team is required.'],
   },
   team: {
     type: String,
@@ -26,16 +25,16 @@ const GoalScorerSchema = new Schema({
     type: Number,
     required: [true, 'Minute of the goal is required.'],
   },
-  is_own_goal: {
+  own_goal: {
     type: Boolean,
     required: [true, 'Was it an own goal? This field is required.'],
   },
-  is_penalty: {
+  penalty: {
     type: Boolean,
     required: [true, 'Was it a penalty? This field is required.'],
   }
 });
 
-const GoalScorer = models.GoalScorer || model('Prompt', GoalScorerSchema);
+const GoalScorer = models.GoalScorer || model('GoalScorer', GoalScorerSchema);
 
 export default GoalScorer;

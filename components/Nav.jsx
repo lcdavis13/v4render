@@ -39,6 +39,10 @@ const Nav = () => {
               Create Post
             </Link>
 
+            <Link href='/list-countries' className='black_btn'>
+              List Countries
+            </Link>
+
             <button type='button' onClick={signOut} className='outline_btn'>
               Sign Out
             </button>
@@ -100,6 +104,13 @@ const Nav = () => {
                   onClick={() => setToggleDropdown(false)}
                 >
                   Create Prompt
+                </Link>
+                <Link
+                  href='/list-countries'
+                  className='dropdown_link'
+                  onClick={() => setToggleDropdown(false)}
+                >
+                  List Countries
                 </Link>
                 <button
                   type='button'

@@ -7,11 +7,11 @@ const PenaltySchema = new Schema({
   },
   home_team: {
     type: String,
-    required: [true, 'Home Team is required.'],
+    required: [true, 'Home team is required.'],
   },
   away_team: {
     type: String,
-    required: [true, 'Away Team is required.'],
+    required: [true, 'Away team is required.'],
   },
   winner: {
     type: String,

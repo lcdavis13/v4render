@@ -16,10 +16,10 @@ Explore the fascinating world of neural networks with our "3D Receptive Fields V
 
 ### Key Features:
 
-Immersive Visualization: Witness the complexity of neural responses as receptive fields come to life in vivid 3D graphics.
-Dynamic Interaction: Manipulate and observe how receptive fields adapt and change in real-time, providing valuable insights into neural network behavior.
-Customizable Parameters: Fine-tune parameters to simulate different scenarios and understand how neurons perceive the world around them.
-Educational Insights: Ideal for students, researchers, and enthusiasts interested in delving into the intricacies of neural networks and computational neuroscience.
+- Immersive Visualization: Witness the complexity of neural responses as receptive fields come to life in vivid 3D graphics.
+- Dynamic Interaction: Manipulate and observe how receptive fields adapt and change in real-time, providing valuable insights into neural network behavior.
+- Customizable Parameters: Fine-tune parameters to simulate different scenarios and understand how neurons perceive the world around them.
+- Educational Insights: Ideal for students, researchers, and enthusiasts interested in delving into the intricacies of neural networks and computational neuroscience.
 
 Whether you're a neuroscience researcher seeking a powerful visualization tool or a curious mind eager to explore the wonders of the brain, our 3D Receptive Fields Visualizer is your gateway to a deeper understanding of neural processing.
 

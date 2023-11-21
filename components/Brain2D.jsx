@@ -6,6 +6,7 @@ import { Bar } from "react-chartjs-2";
 import "chartjs-plugin-datalabels";
 import summary from "../models/summary.json";
 
+
 const insults = summary.Insults;
 let stem_json = [];
 
@@ -1103,7 +1104,7 @@ class Brain2D extends React.Component {
             </div>
           ) : null}
           <div
-            style={{ width: "100%", height: "100%", display: "block" }}
+            style={{ width: "100%", height: "60%", display: "block" }}
             ref={(ref) => (this.threeCanvasContainer = ref)}
           >
             <canvas id="c" style={{ width: "100%", height: "100%" }}></canvas>

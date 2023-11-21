@@ -1,6 +1,6 @@
-<h1 align="center">Software Vulnerability Visualizer & Tracker</h1>
-<h3 align="center">Unveiling Vulnerabilities, Safeguarding Software!</h3>
-<h1 align="center">:warning:</h1>
+<h1 align="center">NAME</h1>
+<h3 align="center">3D Receptive Fields Visualizer</h3>
+<h1 align="center">:brain:</h1>
 
 ### TECH STACK
 <p align="center">
@@ -12,4 +12,18 @@
 
 
 ### Background:
-Our project is a software vulnerability visualizer and tracker designed to transform the way users interact with the National Vulnerability Database (NVD) website. With this tool, users can explore vulnerabilities from the NVD website in an insightful and user-friendly manner, gaining valuable insights into potential security risks. Additionally, our platform empowers users to curate their own personalized list of vulnerabilities, allowing them to stay informed and take proactive measures to address potential threats. This project represents a significant step forward in enhancing cybersecurity awareness and preparedness, ultimately contributing to a safer digital environment.
+Explore the fascinating world of neural networks with our "3D Receptive Fields Visualizer" app. Uncover the intricate patterns of neural activity by visualizing receptive fields in three-dimensional space. This cutting-edge tool allows users to dynamically interact with and comprehend how neurons respond to stimuli within a 3D environment.
+
+### Key Features:
+
+Immersive Visualization: Witness the complexity of neural responses as receptive fields come to life in vivid 3D graphics.
+Dynamic Interaction: Manipulate and observe how receptive fields adapt and change in real-time, providing valuable insights into neural network behavior.
+Customizable Parameters: Fine-tune parameters to simulate different scenarios and understand how neurons perceive the world around them.
+Educational Insights: Ideal for students, researchers, and enthusiasts interested in delving into the intricacies of neural networks and computational neuroscience.
+
+Whether you're a neuroscience researcher seeking a powerful visualization tool or a curious mind eager to explore the wonders of the brain, our 3D Receptive Fields Visualizer is your gateway to a deeper understanding of neural processing.
+
+### How to Start:
+- Before starting, make sure you have Node.js installed. Click [here](https://nextjs.org/docs/getting-started/installation) for more information.
+- In your terminal type, `npm install`.
+- Then, type `npm run dev` and go to http://localhost:3000/.

@@ -4,8 +4,8 @@ import Nav from "@components/Nav";
 import Provider from "@components/Provider";
 
 export const metadata = {
-  title: "Promptopia",
-  description: "Discover & Share AI Prompts",
+  title: "Receptive Fields 3D",
+  description: "Discover & Share Receptive Fields 3D",
 };
 
 const RootLayout = ({ children }) => (

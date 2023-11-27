@@ -11,14 +11,20 @@ import pointsData from '../data/xy_subset_sample.json';
 function extractContours(data) {
     const contours = [];
 
-    for (const key in data) {
-        if (data.hasOwnProperty(key)) {
-            const contourGroup = data[key];
-            contourGroup.forEach((contour) => {
-                if (contour.contour && Array.isArray(contour.contour)) {
-                    contours.push(contour.contour.map(({ x, y, depth }) => [x, y, depth]));
+    for (const cellName in data) {
+        if (data.hasOwnProperty(cellName)) {
+            const cell = data[cellName];
+            for (const depthKey in cell) {
+                if (cell.hasOwnProperty(depthKey)) {
+                    const depth = cell[depthKey];
+
+                    depth.forEach((contour) => {
+                        if (Array.isArray(contour)) {
+                            contours.push(contour.map(({ x, y, depth }) => [x, y, depth]));
+                        }
+                    });
                 }
-            });
+            }
         }
     }
 

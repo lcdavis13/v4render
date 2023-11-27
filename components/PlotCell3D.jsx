@@ -44,6 +44,7 @@ function ContourLines({ contours }) {
 
     return (
         <group>
+            {/* Display contours */}
             {contours.map((contour, index) => {
                 const positions = contour.map(([x, y, depth]) => new THREE.Vector3(x, y, depth));
                 const colors = contour.map(([x, y, depth]) => new THREE.Color(colorScale(uniqueDepths.indexOf(depth))));
@@ -61,6 +62,25 @@ function ContourLines({ contours }) {
     );
 }
 
+function ConcentricRings() {
+    return (
+        <group>
+            {Array.from({ length: 10 }).map((_, index) => {
+                const radius = (index + 1) * 5;
+                const theta = Array.from({ length: 100 }, (_, i) => i * (2 * Math.PI) / 100);
+                const positions = theta.map(angle => new THREE.Vector3(radius * Math.cos(angle), radius * Math.sin(angle), 0));
+
+                const geometry = new THREE.BufferGeometry().setFromPoints(positions);
+                const material = new THREE.LineBasicMaterial({ color: 0xFFAAAA });
+
+                return (
+                    <line key={`ring-${index}`} geometry={geometry} material={material} />
+                );
+            })}
+        </group>
+    );
+}
+
 function PlotCell3D() {
     const contours = extractContours(pointsData);
 
@@ -72,6 +92,7 @@ function PlotCell3D() {
             <axesHelper scale={[5, 5, 5]} />
             <ambientLight />
             <ContourLines contours={contours} />
+            <ConcentricRings />
             <OrbitControls />
             <directionalLight position={[10, 10, 5]} intensity={1} />
         </Canvas>

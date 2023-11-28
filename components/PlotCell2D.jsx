@@ -1,8 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import Plot from 'react-plotly.js';
 import {interpolateViridis} from 'd3-scale-chromatic';
-import contoursData from '../data/xy_subset_sample.json';
+// import contoursData from '../data/xy_subset_sample.json';
+// import contoursData from '../data/xy_data.json';
+import contoursData from '../data/contoursData.json'
 
+// const contoursDataSubset = contoursData["GAJ.XY"].slice(1,3)
 
 function organizeContoursByDepth(contoursData) {
     const contoursByDepth = {};

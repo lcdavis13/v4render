@@ -40,14 +40,14 @@ function PlotContoursWithDepths({contoursByDepth, depthsToPlot}) {
                     line: {color},
                     name: `Depth ${depth} - Contour ${contourIndex + 1}`
                 });
-                traces.push({
-                    x: -contourObject.x,
-                    y: contourObject.y,
-                    type: 'scatter',
-                    mode: 'lines',
-                    line: {color},
-                    showlegend: false
-                });
+                //traces.push({
+                //    x: -contourObject.x,
+                //    y: contourObject.y,
+                //    type: 'scatter',
+                //    mode: 'lines',
+                //    line: {color},
+                //    showlegend: false
+                //});
             } else {
                 console.log(`Contour object at depth ${depth} - Contour ${contourIndex + 1} is not a valid object.`);
             }
@@ -74,14 +74,14 @@ function PlotContourCenters({contoursByDepth, depthsToPlot}) {
                     marker: {color},
                     name: `Center Depth ${depth} - Contour ${contourIndex + 1}`
                 });
-                traces.push({
-                    x: [-centerX],
-                    y: [centerY],
-                    type: 'scatter',
-                    mode: 'markers',
-                    marker: {color},
-                    showlegend: false
-                });
+                //traces.push({
+                //    x: [-centerX],
+                //    y: [centerY],
+                //    type: 'scatter',
+                //    mode: 'markers',
+                //    marker: {color},
+                //    showlegend: false
+                //});
             } else {
                 console.log(`Contour object at depth ${depth} - Contour ${contourIndex + 1} is not a valid object.`);
             }
@@ -112,7 +112,7 @@ function addTargetRings(numRings, traces) {
     }
 }
 
-function PlotCell2D({depthsToPlot = [], numRings = 0}) {
+function PlotCell2D({ depthsToPlot = [], numRings = 0 }) {
     const [contoursByDepth, setContoursByDepth] = useState({});
 
     useEffect(() => {
@@ -129,10 +129,10 @@ function PlotCell2D({depthsToPlot = [], numRings = 0}) {
 
     // Generate traces for contours and contour centers
     if (Object.keys(contoursByDepth).length > 0) {
-        const contoursTraces = PlotContoursWithDepths({contoursByDepth, depthsToPlot});
+        const contoursTraces = PlotContoursWithDepths({ contoursByDepth, depthsToPlot });
         console.log("contoursTraces:", contoursTraces); // Debugging console log
 
-        const centersTraces = PlotContourCenters({contoursByDepth, depthsToPlot});
+        const centersTraces = PlotContourCenters({ contoursByDepth, depthsToPlot });
         console.log("centersTraces:", centersTraces); // Debugging console log
 
         // Ensure that both contoursTraces and centersTraces are arrays
@@ -149,8 +149,8 @@ function PlotCell2D({depthsToPlot = [], numRings = 0}) {
     // Define the layout for the plot
     const layout = {
         title: 'V4 Receptive Fields',
-        xaxis: {title: 'X'},
-        yaxis: {title: 'Y'},
+        xaxis: { title: 'X' },
+        yaxis: { title: 'Y' },
         legend: {
             title: 'Legend',
             items: depthsToPlot.map(depth => `Depth ${depth}`)

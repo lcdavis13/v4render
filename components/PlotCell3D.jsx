@@ -8,14 +8,23 @@ import 'd3-scale';
 // Load your points data from the file
 import pointsData from '../data/xy_subset_sample.json';
 
-function extractContours(data) {
+function extractContours(data, cellNames = [], allowedDepthKeys = []) {
     const contours = [];
 
     for (const cellName in data) {
         if (data.hasOwnProperty(cellName)) {
+            if (cellNames.length > 0 && !cellNames.includes(cellName)) {
+                continue;
+            }
+
             const cell = data[cellName];
             for (const depthKey in cell) {
                 if (cell.hasOwnProperty(depthKey)) {
+                    // Check if allowedDepthKeys is not empty and if the current depthKey is not in the list
+                    if (allowedDepthKeys.length > 0 && !allowedDepthKeys.includes(depthKey)) {
+                        continue; // Skip this depthKey if it's not in the specified list
+                    }
+
                     const depth = cell[depthKey];
 
                     depth.forEach((contour) => {
@@ -30,6 +39,7 @@ function extractContours(data) {
 
     return contours;
 }
+
 
 function ConvertEyeAnglesToSphere(points) {
     const position_radians = points.map(([x, y, depth]) => new THREE.Vector2(x * Math.PI / 180.0, y * Math.PI / 180.0));
@@ -96,12 +106,14 @@ function ConcentricRings() {
 }
 
 function PlotCell3D() {
-    const contours = extractContours(pointsData);
+    // ["GAJ.XY", "RAW.XY"]
+    // []"GAJ.XY", "QBE.XY", "RBE.XY"]
+    const contours = extractContours(pointsData, ["GAJ.XY", "RAW.XY"], ["3", "4", "5", "6", "7", "8"]);
 
     return (
         <Canvas
             camera={{ position: [0, 0, 3], near: 0.1, far: 10, up: [0, 0, 1] }}
-            style={{ height: '100vh', width: '100vw' }}
+            style={{ height: '60vh', width: '100vw' }}
         >
             <axesHelper scale={[2, 2, 2]} />
             <ambientLight />

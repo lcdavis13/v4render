@@ -14,11 +14,21 @@ const VisualizationPage = () => {
     }, []);
 
     return (
-        <section className="w-full flex-center flex-col">
-            <PlotCell2D depthsToPlot={[1, 2, 3]} numRings={5} />
-            <PlotCell3D depthsToPlot={[1, 2, 3]} numRings={5} />
+        // <section className="w-full flex-center flex-col">
+        //     <PlotCell2D depthsToPlot={[1, 2, 3]} numRings={5} />
+        //     <PlotCell3D depthsToPlot={[1, 2, 3]} numRings={5} />
+        // </section>
+
+        <section className="w-full flex flex-row">
+            <div className="flex-1">
+                <PlotCell2D depthsToPlot={[1, 2, 3]} numRings={5} />
+            </div>
+            <div className="flex-1">
+                <PlotCell3D depthsToPlot={[1, 2, 3]} numRings={5} />
+            </div>
         </section>
-    );
+
+);
 };
 
 

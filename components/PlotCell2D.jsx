@@ -1,24 +1,33 @@
 import React, {useState, useEffect} from 'react';
 import Plot from 'react-plotly.js';
 import {interpolateViridis} from 'd3-scale-chromatic';
-import contoursData from '../data/xy_subset_sample_old.json';
+import data from '../data/subset_contours_data.json';
 
 
 function organizeContoursByDepth(contoursData) {
     const contoursByDepth = {};
 
-    contoursData.forEach(group => {
-        if (group.contour && Array.isArray(group.contour)) {
-            group.contour.forEach(point => {
-                const depth = point.depth;
-                if (!contoursByDepth[depth]) {
-                    contoursByDepth[depth] = [];
+    // Iterate over the groups (e.g., "GAJ.XY")
+    Object.keys(contoursData).forEach(groupKey => {
+        const groupData = contoursData[groupKey];
+
+        // Iterate over the depths within each group (e.g., "1", "2")
+        Object.keys(groupData).forEach(depthKey => {
+            const contoursInDepth = groupData[depthKey];
+
+            // Ensure that contoursInDepth is an array
+            if (Array.isArray(contoursInDepth)) {
+                // Initialize the depth array if it doesn't exist
+                if (!contoursByDepth[depthKey]) {
+                    contoursByDepth[depthKey] = [];
                 }
-                contoursByDepth[depth].push(point);
-            });
-        } else {
-            console.log('Contour is not an array or does not exist:', group.contour);
-        }
+
+                // Push all the contours in the current depth into the organized structure
+                contoursByDepth[depthKey].push(...contoursInDepth);
+            } else {
+                console.log(`Contours in depth ${depthKey} in group ${groupKey} is not an array.`);
+            }
+        });
     });
 
     console.log('Contours organized by depth:', contoursByDepth);
@@ -30,32 +39,41 @@ function PlotContoursWithDepths({contoursByDepth, depthsToPlot}) {
     depthsToPlot.forEach((depth, index) => {
         const color = interpolateViridis(index / depthsToPlot.length);
         const contourObjects = contoursByDepth[depth] || [];
-        contourObjects.forEach((contourObject, contourIndex) => {
-            if (typeof contourObject === 'object' && contourObject.hasOwnProperty('x') && contourObject.hasOwnProperty('y') && contourObject.hasOwnProperty('depth')) {
+        contourObjects.forEach((contourArray, contourIndex) => {
+            // Check if contourArray is an array
+            if (Array.isArray(contourArray)) {
+                // Extract x and y arrays from the contourArray
+                const xValues = contourArray.map(point => point.x);
+                const yValues = contourArray.map(point => point.y);
+
+                // Add line trace for each contour array
                 traces.push({
-                    x: contourObject.x,
-                    y: contourObject.y,
+                    x: xValues,
+                    y: yValues,
                     type: 'scatter',
                     mode: 'lines',
                     line: {color},
                     name: `Depth ${depth} - Contour ${contourIndex + 1}`
                 });
+
+                // Add mirrored line trace for each contour array
                 traces.push({
-                    x: -contourObject.x,
-                    y: contourObject.y,
+                    x: xValues.map(x => -x),
+                    y: yValues,
                     type: 'scatter',
                     mode: 'lines',
                     line: {color},
                     showlegend: false
                 });
             } else {
-                console.log(`Contour object at depth ${depth} - Contour ${contourIndex + 1} is not a valid object.`);
+                console.log(`Contour array at depth ${depth} - Contour ${contourIndex + 1} is not an array.`);
             }
         });
     });
     console.log("PlotContoursWithDepths done");
-    return traces; // Return the array of trace objects directly
+    return traces;
 }
+
 
 function PlotContourCenters({contoursByDepth, depthsToPlot}) {
     const traces = [];
@@ -114,10 +132,12 @@ function addTargetRings(numRings, traces) {
 
 function PlotCell2D({depthsToPlot = [], numRings = 0}) {
     const [contoursByDepth, setContoursByDepth] = useState({});
+    // const [contoursData, setContoursData] = useState([]);
 
     useEffect(() => {
+        // setContoursData(data);
         // Combine all contours from different keys into a single array
-        const allContours = Object.values(contoursData).flat();
+        const allContours = Object.values(data).flat();
         console.log("allContours:", allContours); // Debugging console log
         const organizedData = organizeContoursByDepth(allContours);
         console.log("organizedData:", organizedData); // Debugging console log

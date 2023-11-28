@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import * as THREE from 'three';
 import data from '../../data/xy_subset_sample.json';
+import data_old from '../../data/xy_subset_sample_old.json';
 import PlotCell2D from "@components/PlotCell2D";
 import PlotCell3D from "@components/PlotCell3D";
 
@@ -9,7 +10,7 @@ const VisualizationPage = () => {
     const [contours, setContours] = useState([]);
 
     useEffect(() => {
-        setContours(data);
+        setContours(data_old);
     }, []);
 
     return (

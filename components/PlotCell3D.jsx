@@ -6,7 +6,7 @@ import * as d3 from 'd3';
 import 'd3-scale';
 
 // Load your points data from the file
-import pointsData from '../data/subset_contours_data.json';
+import pointsData from '../data/contoursData.json';
 
 function extractContours(data) {
     const contours = [];
@@ -92,8 +92,8 @@ function PlotCell3D() {
 
     return (
         <Canvas
-            camera={{ position: [0, 0, 20], near: 0.1, far: 1000, up: [0, 0, 1] }}
-            style={{ height: '35hv', width: '100hv' }}
+            camera={{ position: [0, 0, 50], near: 0.1, far: 1000, up: [0, 0, 1] }}
+            style={{ height: '100%', width: '100%' }}
         >
             <axesHelper scale={[5, 5, 5]} />
             <ambientLight />

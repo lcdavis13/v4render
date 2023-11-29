@@ -37,7 +37,6 @@ function organizeContoursByDepth(contoursData) {
     return contoursByDepth;
 }
 
-
 function plotContoursWithDepths({contoursByDepth, depthsToPlot}) {
     const traces = [];
     depthsToPlot.forEach((depth, index) => {
@@ -79,7 +78,7 @@ function plotContourCenters(contoursByDepth, depthsToPlot) {
             contoursByDepth[depth].forEach(pointArray => {
                 // Now iterate over each point object in the array
                 pointArray.forEach(point => {
-                    console.log(`Processing point object:`, point);
+                    // console.log(`Processing point object:`, point);
                     const key = `${depth}_${point.cellName}`;
                     if (!centersAggregated[key]) {
                         centersAggregated[key] = {sumX: 0, sumY: 0, count: 0};
@@ -141,13 +140,12 @@ function PlotCell2D({depthsToPlot = [], numRings = 0}) {
         setContoursByDepth(organizedData);
     }, []);
 
-    // Initialize traces as an empty array
     let traces = [];
-    let combinedTraces = {};
+    // let combinedTraces = {};
 
     // Generate traces for contours and contour centers
     if (Object.keys(contoursByDepth).length > 0) {
-        const contoursTraces = plotContoursWithDepths({contoursByDepth, depthsToPlot});
+        // const contoursTraces = plotContoursWithDepths({contoursByDepth, depthsToPlot});
         const centersTraces = plotContourCenters(contoursByDepth, depthsToPlot); // Returns an array of all center traces
 
         traces.push(...centersTraces);
@@ -156,8 +154,6 @@ function PlotCell2D({depthsToPlot = [], numRings = 0}) {
         console.log("traces after addTargetRings:", traces); // Debugging console log
     }
 
-
-    // Define the layout for the plot
     const layout = {
         title: 'V4 Receptive Fields: 2D',
         xaxis: {title: 'X'},
@@ -169,7 +165,7 @@ function PlotCell2D({depthsToPlot = [], numRings = 0}) {
         showlegend: false
     };
 
-    return <Plot data={traces} layout={layout}/>;
+    return <Plot style={{ height: '50hv', width: '50hv' }} data={traces} layout={layout}/>;
 }
 
 

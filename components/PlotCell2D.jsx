@@ -147,7 +147,6 @@ function PlotCell2D({depthsToPlot = [], numRings = 0}) {
     if (Object.keys(contoursByDepth).length > 0) {
         // const contoursTraces = plotContoursWithDepths({contoursByDepth, depthsToPlot});
         const centersTraces = plotContourCenters(contoursByDepth, depthsToPlot); // Returns an array of all center traces
-
         traces.push(...centersTraces);
 
         addTargetRings(numRings, traces);
@@ -165,7 +164,23 @@ function PlotCell2D({depthsToPlot = [], numRings = 0}) {
         showlegend: false
     };
 
-    return <Plot style={{ height: '50hv', width: '50hv' }} data={traces} layout={layout}/>;
+    const handlePlotClick = (event) => {
+        console.log("Click");
+        if (event && event.points && event.points.length > 0) {
+            const point = event.points[0];
+            console.log(`Clicked point coordinates: X=${point.x}, Y=${point.y}`);
+        }
+    };
+
+
+    return (
+        <Plot
+            style={{ height: '50vh', width: '37vw' }}
+            data={traces}
+            layout={layout}
+            onClick={handlePlotClick}  // Corrected event handler name
+        />
+    )
 }
 
 

@@ -96,15 +96,18 @@ function plotContourCenters(contoursByDepth, depthsToPlot) {
         const {sumX, sumY, count} = centersAggregated[key];
         const centerX = sumX / count;
         const centerY = sumY / count;
+        const cellName = key.split('_')[1]; // Extract cellName from the key
         return {
             x: [centerX],
             y: [centerY],
             type: 'scatter',
             mode: 'markers',
             marker: {size: 5, color: 'blue'},
-            name: `Center for ${key.replace('_', ', Cell: ')}`
+            name: `Center for ${cellName}`,
+            customdata: [[cellName]] // Include cellName in customdata
         };
     });
+
 
     return centerTraces; // Return traces for all centers
 }
@@ -168,14 +171,15 @@ function PlotCell2D({depthsToPlot = [], numRings = 0}) {
         console.log("Click");
         if (event && event.points && event.points.length > 0) {
             const point = event.points[0];
-            console.log(`Clicked point coordinates: X=${point.x}, Y=${point.y}`);
+            const cellName = point.customdata ? point.customdata[0] : 'Unknown';
+            console.log(`Clicked point: Cell=${cellName}, X=${point.x}, Y=${point.y}`);
         }
     };
 
 
     return (
         <Plot
-            style={{ height: '50vh', width: '37vw' }}
+            style={{height: '50vh', width: '37vw'}}
             data={traces}
             layout={layout}
             onClick={handlePlotClick}  // Corrected event handler name

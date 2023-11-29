@@ -63,30 +63,59 @@ function plotContoursWithDepths({contoursByDepth, depthsToPlot}) {
 }
 
 //avg of every point of depth 8
-function plotContourCenters(contoursByDepth, depthsToPlot) {
-    if (!Array.isArray(depthsToPlot)) {
-        console.error('Invalid input: depthsToPlot is not an array', depthsToPlot);
-        return {};
-    }
+// function plotContourCenters(contoursByDepth, depthsToPlot) {
+//     if (!Array.isArray(depthsToPlot)) {
+//         console.error('Invalid input: depthsToPlot is not an array', depthsToPlot);
+//         return {};
+//     }
+//
+//     const centers = {};
+//     depthsToPlot.forEach(depth => {
+//         const contoursAtDepth = contoursByDepth[depth] || [];
+//         centers[depth] = contoursAtDepth.map(contour => {
+//             let sumX = 0, sumY = 0;
+//             contour.forEach(point => {
+//                 sumX += point.x;
+//                 sumY += point.y;
+//             });
+//             const centerX = sumX / contour.length;
+//             const centerY = sumY / contour.length;
+//
+//             return {centerX, centerY};
+//         });
+//     });
+//     console.log('Contour centers by depth:', centers);
+//     return centers;
+// }
 
-    const centers = {};
-    depthsToPlot.forEach(depth => {
-        const contoursAtDepth = contoursByDepth[depth] || [];
-        centers[depth] = contoursAtDepth.map(contour => {
-            let sumX = 0, sumY = 0;
-            contour.forEach(point => {
-                sumX += point.x;
-                sumY += point.y;
-            });
-            const centerX = sumX / contour.length;
-            const centerY = sumY / contour.length;
+function plotContourCenters(contoursByDepth) {
+    const depth = 8; // Focusing only on depth 8
+    const contoursAtDepth = contoursByDepth[depth] || [];
+    const centerTraces = [];
 
-            return {centerX, centerY};
+    contoursAtDepth.forEach(contour => {
+        let sumX = 0, sumY = 0;
+        contour.forEach(point => {
+            sumX += point.x;
+            sumY += point.y;
+        });
+        const centerX = sumX / contour.length;
+        const centerY = sumY / contour.length;
+
+        // Create a scatter plot trace for each center
+        centerTraces.push({
+            x: [centerX],
+            y: [centerY],
+            type: 'scatter',
+            mode: 'markers',
+            marker: { size: 5, color: 'blue' }, // Customize marker appearance
+            name: `Depth 8 Center`
         });
     });
-    console.log('Contour centers by depth:', centers);
-    return centers;
+
+    return { 8: centerTraces }; // Return traces for depth 8 centers
 }
+
 
 
 function addTargetRings(numRings, traces) {
@@ -127,17 +156,19 @@ function PlotCell2D({depthsToPlot = [], numRings = 0}) {
 
     // Generate traces for contours and contour centers
     if (Object.keys(contoursByDepth).length > 0) {
-        // const contoursTraces = plotContoursWithDepths({contoursByDepth, depthsToPlot});
-        const centersTraces = plotContourCenters(contoursByDepth, depthsToPlot);
+        const contoursTraces = plotContoursWithDepths({contoursByDepth, depthsToPlot});
+        const centersTraces = plotContourCenters(contoursByDepth);
         depthsToPlot.forEach(depth => {
             combinedTraces[depth] = [];
-            // if (contoursTraces[depth]) {
-            //     combinedTraces[depth].push(contoursTraces[depth]);
-            // }
+            if (contoursTraces[depth]) {
+                combinedTraces[depth].push(contoursTraces[depth]);
+            }
             if (centersTraces[depth]) {
                 combinedTraces[depth].push(...centersTraces[depth]);
             }
             // console.log(`Combined Traces for Depth ${depth}:`, combinedTraces[depth]);
+
+            console.log(`Contour traces for Depth ${depth}`, contoursTraces[depth])
             console.log(`Center traces for Depth ${depth}`, centersTraces[depth])
         });
 
@@ -150,14 +181,14 @@ function PlotCell2D({depthsToPlot = [], numRings = 0}) {
 
     // Define the layout for the plot
     const layout = {
-        // title: 'V4 Receptive Fields',
+        title: 'V4 Receptive Fields: 2D',
         xaxis: {title: 'X'},
         yaxis: {title: 'Y'},
         legend: {
             title: 'Legend',
             items: depthsToPlot.map(depth => `Depth ${depth}`)
         },
-        showlegend: true
+        showlegend: false
     };
 
     return <Plot data={traces} layout={layout}/>;

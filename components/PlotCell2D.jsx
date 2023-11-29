@@ -4,32 +4,39 @@ import {interpolateViridis} from 'd3-scale-chromatic';
 // import data from '../data/subset_contours_data.json';
 import data from '../data/contoursData.json';
 
-
 function organizeContoursByDepth(contoursData) {
     const contoursByDepth = {};
 
-    // Iterate over each cell
+    // Iterate over each cell (e.g., "GAJ.XY")
     Object.keys(contoursData).forEach(groupKey => {
         const groupData = contoursData[groupKey];
+
         // Iterate over the depths within each group (e.g., "1", "2")
         Object.keys(groupData).forEach(depthKey => {
             const contoursInDepth = groupData[depthKey];
+
             // Ensure that contoursInDepth is an array
             if (Array.isArray(contoursInDepth)) {
                 // Initialize the depth array if it doesn't exist
                 if (!contoursByDepth[depthKey]) {
                     contoursByDepth[depthKey] = [];
                 }
-                // Push all the contours in the current depth into the organized structure
-                contoursByDepth[depthKey].push(...contoursInDepth);
+                // Modify each contour point to include the cell name (groupKey)
+                const labeledContours = contoursInDepth.map(contour =>
+                    contour.map(point => ({...point, cellName: groupKey}))
+                );
+                // Push all the labeled contours into the organized structure by depth
+                contoursByDepth[depthKey].push(...labeledContours);
             } else {
                 console.log(`Contours in depth ${depthKey} in group ${groupKey} is not an array.`);
             }
         });
     });
+
     console.log('Contours organized by depth:', contoursByDepth);
     return contoursByDepth;
 }
+
 
 function plotContoursWithDepths({contoursByDepth, depthsToPlot}) {
     const traces = [];
@@ -62,60 +69,46 @@ function plotContoursWithDepths({contoursByDepth, depthsToPlot}) {
     return traces;
 }
 
-//avg of every point of depth 8
-// function plotContourCenters(contoursByDepth, depthsToPlot) {
-//     if (!Array.isArray(depthsToPlot)) {
-//         console.error('Invalid input: depthsToPlot is not an array', depthsToPlot);
-//         return {};
-//     }
-//
-//     const centers = {};
-//     depthsToPlot.forEach(depth => {
-//         const contoursAtDepth = contoursByDepth[depth] || [];
-//         centers[depth] = contoursAtDepth.map(contour => {
-//             let sumX = 0, sumY = 0;
-//             contour.forEach(point => {
-//                 sumX += point.x;
-//                 sumY += point.y;
-//             });
-//             const centerX = sumX / contour.length;
-//             const centerY = sumY / contour.length;
-//
-//             return {centerX, centerY};
-//         });
-//     });
-//     console.log('Contour centers by depth:', centers);
-//     return centers;
-// }
+function plotContourCenters(contoursByDepth, depthsToPlot) {
+    const centersAggregated = {};
 
-function plotContourCenters(contoursByDepth) {
-    const depth = 8; // Focusing only on depth 8
-    const contoursAtDepth = contoursByDepth[depth] || [];
-    const centerTraces = [];
+    // Iterate only over specified depths
+    depthsToPlot.forEach(depth => {
+        if (contoursByDepth[depth]) {
+            // Iterate over arrays (which are actually arrays of points) within each depth
+            contoursByDepth[depth].forEach(pointArray => {
+                // Now iterate over each point object in the array
+                pointArray.forEach(point => {
+                    console.log(`Processing point object:`, point);
+                    const key = `${depth}_${point.cellName}`;
+                    if (!centersAggregated[key]) {
+                        centersAggregated[key] = {sumX: 0, sumY: 0, count: 0};
+                    }
+                    centersAggregated[key].sumX += point.x;
+                    centersAggregated[key].sumY += point.y;
+                    centersAggregated[key].count++;
+                });
+            });
+        }
+    });
 
-    contoursAtDepth.forEach(contour => {
-        let sumX = 0, sumY = 0;
-        contour.forEach(point => {
-            sumX += point.x;
-            sumY += point.y;
-        });
-        const centerX = sumX / contour.length;
-        const centerY = sumY / contour.length;
-
-        // Create a scatter plot trace for each center
-        centerTraces.push({
+    // Calculate average centers and create scatter plot traces
+    const centerTraces = Object.keys(centersAggregated).map(key => {
+        const {sumX, sumY, count} = centersAggregated[key];
+        const centerX = sumX / count;
+        const centerY = sumY / count;
+        return {
             x: [centerX],
             y: [centerY],
             type: 'scatter',
             mode: 'markers',
-            marker: { size: 5, color: 'blue' }, // Customize marker appearance
-            name: `Depth 8 Center`
-        });
+            marker: {size: 5, color: 'blue'},
+            name: `Center for ${key.replace('_', ', Cell: ')}`
+        };
     });
 
-    return { 8: centerTraces }; // Return traces for depth 8 centers
+    return centerTraces; // Return traces for all centers
 }
-
 
 
 function addTargetRings(numRings, traces) {
@@ -143,10 +136,8 @@ function PlotCell2D({depthsToPlot = [], numRings = 0}) {
 
     useEffect(() => {
         // Combine all contours from different keys into a single array
-        const allContours = Object.values(data).flat();
-        // console.log("allContours:", allContours); // Debugging console log
-        const organizedData = organizeContoursByDepth(allContours);
-        // console.log("organizedData:", organizedData); // Debugging console log
+        // const allContours = Object.values(data).flat();
+        const organizedData = organizeContoursByDepth(data);
         setContoursByDepth(organizedData);
     }, []);
 
@@ -157,27 +148,14 @@ function PlotCell2D({depthsToPlot = [], numRings = 0}) {
     // Generate traces for contours and contour centers
     if (Object.keys(contoursByDepth).length > 0) {
         const contoursTraces = plotContoursWithDepths({contoursByDepth, depthsToPlot});
-        const centersTraces = plotContourCenters(contoursByDepth);
-        depthsToPlot.forEach(depth => {
-            combinedTraces[depth] = [];
-            if (contoursTraces[depth]) {
-                combinedTraces[depth].push(contoursTraces[depth]);
-            }
-            if (centersTraces[depth]) {
-                combinedTraces[depth].push(...centersTraces[depth]);
-            }
-            // console.log(`Combined Traces for Depth ${depth}:`, combinedTraces[depth]);
+        const centersTraces = plotContourCenters(contoursByDepth, depthsToPlot); // Returns an array of all center traces
 
-            console.log(`Contour traces for Depth ${depth}`, contoursTraces[depth])
-            console.log(`Center traces for Depth ${depth}`, centersTraces[depth])
-        });
+        traces.push(...centersTraces);
 
-        // Combine all traces into a single array for plotting
-        traces = Object.values(combinedTraces).flat();
         addTargetRings(numRings, traces);
         console.log("traces after addTargetRings:", traces); // Debugging console log
-
     }
+
 
     // Define the layout for the plot
     const layout = {

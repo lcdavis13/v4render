@@ -20,10 +20,10 @@ const VisualizationPage = () => {
         // </section>
 
         <section className="w-full flex flex-row">
-            <div className="flex-1">
+            <div className="flex-1" style={{ margin: 0, padding: 0 }}>
                 <PlotCell2D depthsToPlot={[1, 2, 3]} numRings={5} />
             </div>
-            <div className="flex-1">
+            <div className="flex-1" style={{ margin: 0, padding: 0 }}>
                 <PlotCell3D depthsToPlot={[1, 2, 3]} numRings={5} />
             </div>
         </section>

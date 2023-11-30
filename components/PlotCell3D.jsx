@@ -113,7 +113,7 @@ function PlotCell3D() {
     return (
         <Canvas
             camera={{ position: [0, 0, 3], near: 0.1, far: 10, up: [0, 0, 1] }}
-            style={{ height: '60vh', width: '100vw' }}
+            style={{ height: '60vh', width: '60vw' }}
         >
             <axesHelper scale={[2, 2, 2]} />
             <ambientLight />

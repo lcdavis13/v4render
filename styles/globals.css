@@ -30,7 +30,7 @@
 
 .main:after {
   content: "";
-  background-image: url("/assets/images/grid.svg");
+  background-image: url("/assets/images/iStock-neurons_2500-1536x1024.webp");
   z-index: 1;
   position: absolute;
   width: 100%;

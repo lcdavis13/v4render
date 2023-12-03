@@ -115,7 +115,7 @@ function plotContourCenters(contoursByDepth, depthsToPlot, clickedPoint) {
 }
 
 function addTargetRings(numRings, traces) {
-    const radmult = 2;
+    const radmult = 5;
     const theta = Array.from({length: 100}, (_, i) => i * (2 * Math.PI) / 100);
 
     for (let i = 1; i <= numRings; i++) {

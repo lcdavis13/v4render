@@ -39,3 +39,6 @@ rfs.json
 
 # data
 /data/
+
+# visual studio
+/.vs/

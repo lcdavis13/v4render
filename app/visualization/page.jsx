@@ -21,7 +21,7 @@ const VisualizationPage = () => {
         <>
             <section className="w-full flex flex-row justify-between items-stretch overflow-hidden">
                 <div className="w-1/2 overflow-hidden">
-                    <PlotCell2D depthsToPlot={[8]} numRings={8} onPlotClick={handlePlotClick} clickedPoint={clickedPoint}/>
+                    <PlotCell2D depthsToPlot={[8]} numRings={12} onPlotClick={handlePlotClick} clickedPoint={clickedPoint}/>
                 </div>
                 <div className="w-1/2 overflow-hidden">
                     <PlotCell3D numRings={5} clickedPoint={clickedPoint}/>

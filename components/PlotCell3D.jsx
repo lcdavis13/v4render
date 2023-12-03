@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Canvas, useFrame } from 'react-three-fiber';
 import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
@@ -87,8 +87,15 @@ function ConcentricRings() {
     );
 }
 
-function PlotCell3D() {
+function PlotCell3D(props) {
     const contours = extractContours(pointsData);
+
+    // You can use props here, for example:
+    useEffect(() => {
+        if (props.clickedPoint) {
+            console.log("Received clicked point in PlotCell3D:", props.clickedPoint);
+        }
+    }, [props.clickedPoint]);
 
     return (
         <Canvas

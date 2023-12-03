@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import Plot from 'react-plotly.js';
 import {interpolateViridis} from 'd3-scale-chromatic';
-// import data from '../data/subset_contours_data.json';
 import data from '../data/contoursData.json';
 
 function organizeContoursByDepth(contoursData) {
@@ -68,17 +67,14 @@ function plotContoursWithDepths({contoursByDepth, depthsToPlot}) {
     return traces;
 }
 
-function plotContourCenters(contoursByDepth, depthsToPlot) {
+function plotContourCenters(contoursByDepth, depthsToPlot, clickedPoint) {
     const centersAggregated = {};
 
     // Iterate only over specified depths
     depthsToPlot.forEach(depth => {
         if (contoursByDepth[depth]) {
-            // Iterate over arrays (which are actually arrays of points) within each depth
             contoursByDepth[depth].forEach(pointArray => {
-                // Now iterate over each point object in the array
                 pointArray.forEach(point => {
-                    // console.log(`Processing point object:`, point);
                     const key = `${depth}_${point.cellName}`;
                     if (!centersAggregated[key]) {
                         centersAggregated[key] = {sumX: 0, sumY: 0, count: 0};
@@ -97,21 +93,26 @@ function plotContourCenters(contoursByDepth, depthsToPlot) {
         const centerX = sumX / count;
         const centerY = sumY / count;
         const cellName = key.split('_')[1]; // Extract cellName from the key
+
+        const isClickedPoint = clickedPoint && clickedPoint.x === centerX && clickedPoint.y === centerY;
+        const color = isClickedPoint ? 'green' : 'blue';
+        const symbol = isClickedPoint ? 'star' : 'circle';
+        const size = isClickedPoint ? 15 : 5;
+        const opacity = isClickedPoint ? 1 : 0.5;
+
         return {
             x: [centerX],
             y: [centerY],
             type: 'scatter',
             mode: 'markers',
-            marker: {size: 5, color: 'blue'},
+            marker: {size: size, color: color, symbol: symbol, opacity: opacity},
             name: `Center for ${cellName}`,
             customdata: [[cellName]] // Include cellName in customdata
         };
     });
 
-
     return centerTraces; // Return traces for all centers
 }
-
 
 function addTargetRings(numRings, traces) {
     const radmult = 2;
@@ -133,7 +134,7 @@ function addTargetRings(numRings, traces) {
     }
 }
 
-function PlotCell2D({ depthsToPlot = [], numRings = 0, onPlotClick }) {
+function PlotCell2D({ depthsToPlot = [], numRings = 0, onPlotClick, clickedPoint }) {
     const [contoursByDepth, setContoursByDepth] = useState({});
 
     useEffect(() => {
@@ -148,8 +149,8 @@ function PlotCell2D({ depthsToPlot = [], numRings = 0, onPlotClick }) {
 
     // Generate traces for contours and contour centers
     if (Object.keys(contoursByDepth).length > 0) {
-        // const contoursTraces = plotContoursWithDepths({contoursByDepth, depthsToPlot});
-        const centersTraces = plotContourCenters(contoursByDepth, depthsToPlot); // Returns an array of all center traces
+        // const centersTraces = plotContourCenters(contoursByDepth, depthsToPlot, plotColor); // Modify to use plotColor
+        const centersTraces = plotContourCenters(contoursByDepth, depthsToPlot, clickedPoint); // Pass clickedPoint
         traces.push(...centersTraces);
 
         addTargetRings(numRings, traces);
@@ -169,7 +170,7 @@ function PlotCell2D({ depthsToPlot = [], numRings = 0, onPlotClick }) {
 
     return (
         <Plot
-            style={{ height: '50vh', width: '37vw' }}
+            style={{height: '50vh', width: '37vw'}}
             data={traces}
             layout={layout}
             onClick={(event) => onPlotClick(event)}  // Use the destructured handler

@@ -92,8 +92,8 @@ function PlotCell3D(props) {
 
     useEffect(() => {
         if (props.clickedPoint) {
-            console.log("Received clicked point in PlotCell3D:", props.clickedPoint);
             // Update contours only when clickedPoint is set
+            console.log("Cell: ", props.clickedPoint.cell);
             const filteredContours = extractContours(pointsData, props.clickedPoint.cell);
             setContours(filteredContours);
         }

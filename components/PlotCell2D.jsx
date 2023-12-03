@@ -175,24 +175,6 @@ function PlotCell2D({ depthsToPlot = [], numRings = 0, onPlotClick }) {
             onClick={(event) => onPlotClick(event)}  // Use the destructured handler
         />
     );
-
-    // const handlePlotClick = (event) => {
-    //     console.log("Click");
-    //     if (event && event.points && event.points.length > 0) {
-    //         const point = event.points[0];
-    //         const cellName = point.customdata ? point.customdata[0] : 'Unknown';
-    //         console.log(`Clicked point: Cell=${cellName}, X=${point.x}, Y=${point.y}`);
-    //     }
-    // };
-    //
-    // return (
-    //     <Plot
-    //         style={{height: '50vh', width: '37vw'}}
-    //         data={traces}
-    //         layout={layout}
-    //         onClick={handlePlotClick}  // Corrected event handler name
-    //     />
-    // )
 }
 
 

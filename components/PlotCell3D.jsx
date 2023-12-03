@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Canvas, useFrame } from 'react-three-fiber';
 import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
@@ -8,12 +8,12 @@ import 'd3-scale';
 // Load your points data from the file
 import pointsData from '../data/contoursData.json';
 
-function extractContours(data) {
+function extractContours(data, cellName = null) {
     const contours = [];
 
-    for (const cellName in data) {
-        if (data.hasOwnProperty(cellName)) {
-            const cell = data[cellName];
+    for (const name in data) {
+        if (data.hasOwnProperty(name) && (!cellName || name === cellName)) {
+            const cell = data[name];
             for (const depthKey in cell) {
                 if (cell.hasOwnProperty(depthKey)) {
                     const depth = cell[depthKey];
@@ -27,7 +27,6 @@ function extractContours(data) {
             }
         }
     }
-
     return contours;
 }
 
@@ -88,23 +87,27 @@ function ConcentricRings() {
 }
 
 function PlotCell3D(props) {
-    const contours = extractContours(pointsData);
+    // Initialize contours as an empty array
+    const [contours, setContours] = useState([]);
 
-    // You can use props here, for example:
     useEffect(() => {
         if (props.clickedPoint) {
             console.log("Received clicked point in PlotCell3D:", props.clickedPoint);
+            // Update contours only when clickedPoint is set
+            const filteredContours = extractContours(pointsData, props.clickedPoint.cell);
+            setContours(filteredContours);
         }
     }, [props.clickedPoint]);
 
     return (
         <Canvas
-            camera={{ position: [0, 0, 50], near: 0.1, far: 1000, up: [0, 0, 1] }}
+            camera={{ position: [0, 0, 25], near: 0.1, far: 1000, up: [0, 0, 1] }}
             style={{ height: '100%', width: '100%' }}
         >
             <axesHelper scale={[5, 5, 5]} />
             <ambientLight />
-            <ContourLines contours={contours} />
+            {/* Only render ContourLines if contours are not empty */}
+            {contours.length > 0 && <ContourLines contours={contours} />}
             <ConcentricRings />
             <OrbitControls />
             <directionalLight position={[10, 10, 5]} intensity={1} />

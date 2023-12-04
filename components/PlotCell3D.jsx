@@ -51,9 +51,9 @@ function ConvertEyeAnglesToSphere(points) {
         Math.atan2(y, x)
     ));
     const positions = polar_positions.map(([u, w]) => new THREE.Vector3(
-        Math.sin(u) * Math.sin(w),
         Math.sin(u) * Math.cos(w),
-        Math.cos(u)
+        Math.cos(u),
+        -Math.sin(u) * Math.sin(w),
     ));
     return positions
 }
@@ -130,17 +130,16 @@ function PlotCell3D(props) {
 
     return (
         <Canvas
-            camera={{ position: [0, 0, 3], near: 0.1, far: 10, up: [0, 0, 1] }}
+            camera={{ position: [0, 3, 0], near: 0.1, far: 100,  }}
             style={{ height: '100%', width: '100%' }}
+            onCreated={({ gl }) => {
+                // Set clear color to desired background color
+                gl.setClearColor(new THREE.Color(0xf0f0f0));
+            }}
         >
 
-            {/* Background */}
-            <mesh>
-                <boxGeometry args={[7, 7, 7]} />
-                <meshBasicMaterial color={0xf0f0f0} side={THREE.BackSide} />
-            </mesh>
 
-            <axesHelper scale={[2, 2, 2]} />
+            <axesHelper scale={[2, 2, -2]} />
             <ambientLight />
             <ContourLines contours={contours} />
             <ConcentricRings />

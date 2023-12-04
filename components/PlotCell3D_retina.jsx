@@ -100,7 +100,7 @@ function ConcentricRings() {
         <group>
             {Array.from({ length: 12 }).map((_, index) => {
                 const radius = (index + 1) * 5;
-                const theta = Array.from({ length: 100 }, (_, i) => i * (2 * Math.PI) / 100);
+                const theta = Array.from({ length: 101 }, (_, i) => i * (2 * Math.PI) / 100);
                 const eye_angles = theta.map(angle => new THREE.Vector3(radius * Math.cos(angle), radius * Math.sin(angle), 0));
                 const positions = ConvertEyeAnglesToSphere(eye_angles)
 

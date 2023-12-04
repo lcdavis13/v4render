@@ -275,7 +275,7 @@ function ConcentricRings() {
         <group>
             {Array.from({ length: 12 }).map((_, index) => {
                 const radius = (index + 1) * 5;
-                const theta = Array.from({ length: 100 }, (_, i) => i * (2 * Math.PI) / 100);
+                const theta = Array.from({ length: 100 + 1 }, (_, i) => i * (2 * Math.PI) / 100);
                 const eye_angles = theta.map(angle => new THREE.Vector3(radius * Math.cos(angle), radius * Math.sin(angle), 0));
                 const positions = ConvertEyeAnglesToV4(eye_angles)
 
@@ -303,7 +303,7 @@ function Wireframe() {
 
                 const radius = data.r;
                 const z = data.z;
-                const theta = Array.from({ length: SampleSteps }, (_, i) => i * (2 * Math.PI) / SampleSteps);
+                const theta = Array.from({ length: 100 + 1 }, (_, i) => i * (2 * Math.PI) / 100);
                 const positions = theta.map(angle => new THREE.Vector3(radius * Math.cos(angle), -z, -radius * Math.sin(angle)));
 
                 const geometry = new THREE.BufferGeometry().setFromPoints(positions);

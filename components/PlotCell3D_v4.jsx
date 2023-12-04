@@ -7,106 +7,8 @@ import 'd3-scale';
 
 // Load your points data from the file
 import pointsData from '../data/contoursData.json';
-//import manifoldData from '../data/v1mag.csv';
-// Import the JSON file directly
 import functionTableData from '../data/v1mag.json';
 
-// Set the functionTable variable
-//var functionTable = functionTableData;
-
-//var functionTable; // Global variable to store the loaded function table
-
-//// Load CSV file
-//function loadCSV(url, callback) {
-//    var xhr = new XMLHttpRequest();
-//    xhr.onreadystatechange = function () {
-//        if (xhr.readyState === XMLHttpRequest.DONE) {
-//            if (xhr.status === 200) {
-//                callback(xhr.responseText);
-//            }
-//        }
-//    };
-//    xhr.open("GET", url, true);
-//    xhr.send();
-//}
-
-//// Parse CSV data and store it in the functionTable variable
-//function loadFunctionTable(callback) {
-//    loadCSV('../data/v1mag.csv', function (data) {
-//        var lines = data.split('\n');
-//        var headers = lines[0].split(',');
-
-//        functionTable = lines.slice(1).map(function (line) {
-//            var values = line.split(',');
-//            var entry = {};
-//            headers.forEach(function (header, index) {
-//                entry[header] = parseFloat(values[index]);
-//            });
-//            return entry;
-//        });
-
-//        callback();
-//    });
-//}
-
-//// Linear Interpolation function
-//function lerp(x, x0, x1, y0, y1) {
-//    return y0 + (x - x0) * (y1 - y0) / (x1 - x0);
-//}
-
-//// Binary search for the closest phi value
-//function binarySearch(arr, target, phiIndex) {
-//    var left = 0;
-//    var right = arr.length - 1;
-
-//    while (left <= right) {
-//        var mid = Math.floor((left + right) / 2);
-//        var midPhi = arr[mid].phi;
-
-//        if (midPhi === target) {
-//            return mid;
-//        } else if (midPhi < target) {
-//            left = mid + 1;
-//        } else {
-//            right = mid - 1;
-//        }
-//    }
-
-//    // At this point, left points to the first element greater than target
-//    // and right points to the last element smaller than target
-//    // Return the index of the element with the closest phi value
-//    return Math.abs(arr[left].phi - target) < Math.abs(arr[right].phi - target) ? left : right;
-//}
-
-//// Function to get r and z values for a given phi using linear interpolation
-//function get_rz(phi) {
-//    if (!functionTable) {
-//        console.error('Function table not loaded. Make sure to import the JSON data before using get_rz.');
-//        return null;
-//    }
-
-//    // Use binary search to find the closest phi values for interpolation
-//    var index = binarySearch(functionTable, phi, 'phi');
-//    var prevIndex = Math.max(0, index - 1);
-//    var nextIndex = Math.min(index + 1, functionTable.length - 1);
-
-//    // Extract phi, r, and z values for interpolation
-//    var prevPhi = functionTable[prevIndex].phi;
-//    var nextPhi = functionTable[nextIndex].phi;
-//    var prevR = functionTable[prevIndex].r;
-//    var nextR = functionTable[nextIndex].r;
-//    var prevZ = functionTable[prevIndex].z;
-//    var nextZ = functionTable[nextIndex].z;
-
-//    // Perform linear interpolation
-//    var interpolatedR = lerp(phi, prevPhi, nextPhi, prevR, nextR);
-//    var interpolatedZ = lerp(phi, prevPhi, nextPhi, prevZ, nextZ);
-
-//    return {
-//        r: interpolatedR,
-//        z: interpolatedZ
-//    };
-//}
 
 function binarySearch(arr, target, key) {
     let low = 0;
@@ -322,13 +224,6 @@ function Wireframe() {
 function PlotCell3D_v4(props) {
     const [contours, setContours] = useState([]);
 
-    //// Load function table when the component is mounted
-    //useEffect(() => {
-    //    loadFunctionTable(() => {
-    //        console.log("Function table loaded.");
-    //    });
-    //}, []); // Empty dependency array ensures that it's only called once when the component is mounted
-
     useEffect(() => {
         if (props.clickedPoint) {
             console.log("Cell: ", props.clickedPoint.cell);
@@ -339,18 +234,18 @@ function PlotCell3D_v4(props) {
 
     return (
         <Canvas
-            camera={{ position: [0, 100, 0], near: 0.1, far: 1000 }}
+            camera={{ position: [-20, 20, 20], near: 0.1, far: 1000}}
             style={{ height: '100%', width: '100%' }}
-            onCreated={({ gl }) => {
+            onCreated={({ gl, camera }) => {
                 gl.setClearColor(new THREE.Color(0xf0f0f0));
             }}
         >
-            <axesHelper scale={[50, 50, -50]} />
+            <axesHelper scale={[30, 30, -30]} />
             <ambientLight />
             <Wireframe />
             <ConcentricRings />
             <ContourLines contours={contours} />
-            <OrbitControls />
+            <OrbitControls target={[0, -20, 0]} />
             <directionalLight position={[10, 10, 5]} intensity={1} />
         </Canvas>
     );

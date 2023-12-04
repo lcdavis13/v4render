@@ -130,7 +130,7 @@ function PlotCell3D_retina(props) {
 
     return (
         <Canvas
-            camera={{ position: [0, 3, 0], near: 0.1, far: 100,  }}
+            camera={{ position: [-1.5, 1.5, 1.5], near: 0.1, far: 100,  }}
             style={{ height: '100%', width: '100%' }}
             onCreated={({ gl }) => {
                 // Set clear color to desired background color

@@ -1,7 +1,8 @@
 "use client";
 import React, {useState} from 'react';
 import PlotCell2D from '@components/PlotCell2D';
-import PlotCell3D from '@components/PlotCell3D';
+import PlotCell3D_v4 from '@components/PlotCell3D_v4';
+import PlotCell3D_retina from '@components/PlotCell3D_retina';
 
 const VisualizationPage = () => {
     const [clickedPoint, setClickedPoint] = useState(null);
@@ -20,11 +21,14 @@ const VisualizationPage = () => {
     return (
         <>
             <section className="w-full flex flex-row justify-between items-stretch overflow-hidden">
-                <div className="w-1/2 overflow-hidden">
+                <div className="w-1/3 overflow-hidden">
                     <PlotCell2D depthsToPlot={[8]} numRings={12} onPlotClick={handlePlotClick} clickedPoint={clickedPoint}/>
                 </div>
-                <div className="w-1/2 overflow-hidden">
-                    <PlotCell3D numRings={5} clickedPoint={clickedPoint}/>
+                <div className="w-1/3 overflow-hidden">
+                    <PlotCell3D_retina numRings={5} clickedPoint={clickedPoint}/>
+                </div>
+                <div className="w-1/3 overflow-hidden">
+                    <PlotCell3D_v4 numRings={5} clickedPoint={clickedPoint} />
                 </div>
             </section>
             <div className="general-description"> {/* Add a larger text box for general description */}

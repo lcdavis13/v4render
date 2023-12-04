@@ -115,7 +115,7 @@ function ConcentricRings() {
     );
 }
 
-function PlotCell3D(props) {
+function PlotCell3D_retina(props) {
     // Initialize contours as an empty array
     const [contours, setContours] = useState([]);
 
@@ -149,4 +149,4 @@ function PlotCell3D(props) {
     );
 }
 
-export default PlotCell3D;
+export default PlotCell3D_retina;

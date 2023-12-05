@@ -181,7 +181,7 @@
 .general-description {
   margin-top: 30px; /* More space for general description */
   padding: 20px;
-  border-radius: 10px; /* Consistent rounded corners */
-  background-color: #fff;
+  border-radius: 5px; /* Consistent rounded corners */
+  background-color: #f0f0f0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

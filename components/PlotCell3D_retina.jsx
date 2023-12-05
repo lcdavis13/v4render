@@ -129,23 +129,23 @@ function PlotCell3D_retina(props) {
     }, [props.clickedPoint]);
 
     return (
-        <Canvas
-            camera={{ position: [-1.5, 1.5, 1.5], near: 0.1, far: 100,  }}
-            style={{ height: '100%', width: '100%' }}
-            onCreated={({ gl }) => {
-                // Set clear color to desired background color
-                gl.setClearColor(new THREE.Color(0xf0f0f0));
-            }}
-        >
-
-
-            <axesHelper scale={[2, 2, -2]} />
-            <ambientLight />
-            <ContourLines contours={contours} />
-            <ConcentricRings />
-            <OrbitControls />
-            <directionalLight position={[10, 10, 5]} intensity={1} />
-        </Canvas>
+        <div style={{ position: 'relative', width: '48vw', height: '40vh' }}>
+            <Canvas
+                camera={{ position: [-1.5, 1.5, 1.5], near: 0.1, far: 100 }}
+                style={{ position: 'absolute', top: 0, left: 0 }}
+                onCreated={({ gl }) => {
+                    // Set clear color to desired background color
+                    gl.setClearColor(new THREE.Color(0xf0f0f0));
+                }}
+            >
+                <axesHelper scale={[2, 2, -2]} />
+                <ambientLight />
+                <ContourLines contours={contours} />
+                <ConcentricRings />
+                <OrbitControls />
+                <directionalLight position={[10, 10, 5]} intensity={1} />
+            </Canvas>
+        </div>
     );
 }
 

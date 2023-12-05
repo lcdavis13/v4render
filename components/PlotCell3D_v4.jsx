@@ -219,8 +219,6 @@ function Wireframe() {
     );
 }
 
-
-
 function PlotCell3D_v4(props) {
     const [contours, setContours] = useState([]);
 
@@ -233,21 +231,23 @@ function PlotCell3D_v4(props) {
     }, [props.clickedPoint]);
 
     return (
-        <Canvas
-            camera={{ position: [-20, 20, 20], near: 0.1, far: 1000}}
-            style={{ height: '100%', width: '100%' }}
-            onCreated={({ gl, camera }) => {
-                gl.setClearColor(new THREE.Color(0xf0f0f0));
-            }}
-        >
-            <axesHelper scale={[30, 30, -30]} />
-            <ambientLight />
-            <Wireframe />
-            <ConcentricRings />
-            <ContourLines contours={contours} />
-            <OrbitControls target={[0, -20, 0]} />
-            <directionalLight position={[10, 10, 5]} intensity={1} />
-        </Canvas>
+        <div style={{ position: 'relative', width: '48vw', height: '40vh' }}>
+            <Canvas
+                camera={{ position: [-20, 20, 20], near: 0.1, far: 1000 }}
+                style={{ position: 'absolute', top: 0, left: 0 }}
+                onCreated={({ gl, camera }) => {
+                    gl.setClearColor(new THREE.Color(0xf0f0f0));
+                }}
+            >
+                <axesHelper scale={[30, 30, -30]} />
+                <ambientLight />
+                <Wireframe />
+                <ConcentricRings />
+                <ContourLines contours={contours} />
+                <OrbitControls target={[0, -20, 0]} />
+                <directionalLight position={[10, 10, 5]} intensity={1} />
+            </Canvas>
+        </div>
     );
 }
 

@@ -87,6 +87,8 @@ function plotContourCenters(contoursByDepth, depthsToPlot, clickedPoint) {
         }
     });
 
+    const defaultCellName = "RBI.XY"; // Replace with the desired cellName
+
     // Calculate average centers and create scatter plot traces
     const centerTraces = Object.keys(centersAggregated).map(key => {
         const {sumX, sumY, count} = centersAggregated[key];
@@ -158,22 +160,32 @@ function PlotCell2D({ depthsToPlot = [], numRings = 0, onPlotClick, clickedPoint
     }
 
     const layout = {
-        title: 'V4 Receptive Fields: 2D',
-        xaxis: {title: 'X'},
-        yaxis: {title: 'Y'},
+        // title: 'V4 Receptive Field Centers: 2D',
+        xaxis: {
+            title: 'X',
+            range: [-25, 12],
+            autorange: false
+        },
+        yaxis: {
+            title: 'Y',
+            range: [-45, 20],
+            autorange: false
+        },
         legend: {
             title: 'Legend',
             items: depthsToPlot.map(depth => `Depth ${depth}`)
         },
+        plot_bgcolor: '#fff',
+        paper_bgcolor: '#fff',
         showlegend: false
     };
 
     return (
         <Plot
-            style={{height: '50vh', width: '37vw'}}
+            style={{height: '40vh', width: '45vw', bgcolor: '#f0f0f0'}}
             data={traces}
             layout={layout}
-            onClick={(event) => onPlotClick(event)}  // Use the destructured handler
+            onClick={(event) => onPlotClick(event)}
         />
     );
 }

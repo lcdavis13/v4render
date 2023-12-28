@@ -182,7 +182,7 @@ dist
 .vscode
 .DS_Store
 .parcel-cache
-tailwind.config.js
+#tailwind.config.js
 index.html
 yarn.lock
 yarn-error.log
